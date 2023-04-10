@@ -14,7 +14,7 @@ import java.security.cert.X509Certificate;
  * Fork of <a href="http://netty.io">Netty</a>
  */
 public class BogusTrustManagerFactory
-    extends TrustManagerFactorySpi {
+        extends TrustManagerFactorySpi {
     private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager() {
         @Override
         public X509Certificate[] getAcceptedIssuers() {
@@ -23,7 +23,7 @@ public class BogusTrustManagerFactory
 
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType)
-            throws CertificateException {
+                throws CertificateException {
             // Always trust - it is an example.
             // You should do something in the real world.
             // You will reach here only if you enabled client certificate auth,
@@ -33,7 +33,7 @@ public class BogusTrustManagerFactory
 
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType)
-            throws CertificateException {
+                throws CertificateException {
             // Always trust - it is an example.
             // You should do something in the real world.
             System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectDN());
@@ -47,13 +47,13 @@ public class BogusTrustManagerFactory
 
     @Override
     protected void engineInit(KeyStore keystore)
-        throws KeyStoreException {
+            throws KeyStoreException {
         // Unused
     }
 
     @Override
     protected void engineInit(ManagerFactoryParameters managerFactoryParameters)
-        throws InvalidAlgorithmParameterException {
+            throws InvalidAlgorithmParameterException {
         // Unused
     }
 }

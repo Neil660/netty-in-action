@@ -24,49 +24,53 @@ public class PlainNioServer {
         InetSocketAddress address = new InetSocketAddress(port);
         ss.bind(address);
         Selector selector = Selector.open();
+        // 将ServerSocket注册到Slecetor以接受连接
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);
         final ByteBuffer msg = ByteBuffer.wrap("Hi!\r\n".getBytes());
-        for (;;){
+        for (; ; ) {
             try {
+                //等待需要处理的新事件；阻塞 将一直持续到下一个传入事件
                 selector.select();
-            } catch (IOException ex) {
+            }
+            catch (IOException ex) {
                 ex.printStackTrace();
-                //handle exception
                 break;
             }
+            //获取所有接收事件的SelectionKey 实例
             Set<SelectionKey> readyKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = readyKeys.iterator();
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
                 iterator.remove();
                 try {
+                    //检查事件是否是一个新的已经就绪可以被接受的连接
                     if (key.isAcceptable()) {
-                        ServerSocketChannel server =
-                                (ServerSocketChannel) key.channel();
+                        ServerSocketChannel server = (ServerSocketChannel) key.channel();
                         SocketChannel client = server.accept();
                         client.configureBlocking(false);
-                        client.register(selector, SelectionKey.OP_WRITE |
-                                SelectionKey.OP_READ, msg.duplicate());
-                        System.out.println(
-                                "Accepted connection from " + client);
+                        //接受客户端，并将它注册到选择
+                        client.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ, msg.duplicate());
+                        System.out.println("Accepted connection from " + client);
                     }
+                    //检查套接字是否已经准备好写数据
                     if (key.isWritable()) {
-                        SocketChannel client =
-                                (SocketChannel) key.channel();
-                        ByteBuffer buffer =
-                                (ByteBuffer) key.attachment();
+                        SocketChannel client = (SocketChannel) key.channel();
+                        ByteBuffer buffer = (ByteBuffer) key.attachment();
                         while (buffer.hasRemaining()) {
+                            //将数据写到已连接的客户端
                             if (client.write(buffer) == 0) {
                                 break;
                             }
                         }
                         client.close();
                     }
-                } catch (IOException ex) {
+                }
+                catch (IOException ex) {
                     key.cancel();
                     try {
                         key.channel().close();
-                    } catch (IOException cex) {
+                    }
+                    catch (IOException cex) {
                         // ignore on close
                     }
                 }

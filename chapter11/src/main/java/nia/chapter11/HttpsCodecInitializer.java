@@ -32,7 +32,8 @@ public class HttpsCodecInitializer extends ChannelInitializer<Channel> {
 
         if (isClient) {
             pipeline.addLast("codec", new HttpClientCodec());
-        } else {
+        }
+        else {
             pipeline.addLast("codec", new HttpServerCodec());
         }
     }

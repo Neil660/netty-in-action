@@ -5,7 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * Created by kerr.
- *
+ * <p>
  * Listing 1.2 ChannelHandler triggered by a callback
  */
 public class ConnectHandler extends ChannelInboundHandlerAdapter {

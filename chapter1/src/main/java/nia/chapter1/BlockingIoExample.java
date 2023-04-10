@@ -9,14 +9,14 @@ import java.net.Socket;
 
 /**
  * Created by kerr.
- *
+ * <p>
  * Listing 1.1 Blocking I/O example
  */
 public class BlockingIoExample {
 
     /**
      * Listing 1.1 Blocking I/O example
-     * */
+     */
     public void serve(int portNumber) throws IOException {
         ServerSocket serverSocket = new ServerSocket(portNumber);
         Socket clientSocket = serverSocket.accept();
@@ -34,7 +34,7 @@ public class BlockingIoExample {
         }
     }
 
-    private String processRequest(String request){
+    private String processRequest(String request) {
         return "Processed";
     }
 }

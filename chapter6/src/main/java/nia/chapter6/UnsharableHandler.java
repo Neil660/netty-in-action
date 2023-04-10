@@ -12,6 +12,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 @Sharable
 public class UnsharableHandler extends ChannelInboundHandlerAdapter {
     private int count;
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         count++;

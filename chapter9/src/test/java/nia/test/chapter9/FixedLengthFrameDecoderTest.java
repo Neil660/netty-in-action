@@ -6,7 +6,10 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import nia.chapter9.FixedLengthFrameDecoder;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Listing 9.2 Testing the FixedLengthFrameDecoder
@@ -22,7 +25,7 @@ public class FixedLengthFrameDecoderTest {
         }
         ByteBuf input = buf.duplicate();
         EmbeddedChannel channel = new EmbeddedChannel(
-            new FixedLengthFrameDecoder(3));
+                new FixedLengthFrameDecoder(3));
         // write bytes
         assertTrue(channel.writeInbound(input.retain()));
         assertTrue(channel.finish());
@@ -53,7 +56,7 @@ public class FixedLengthFrameDecoderTest {
         ByteBuf input = buf.duplicate();
 
         EmbeddedChannel channel = new EmbeddedChannel(
-            new FixedLengthFrameDecoder(3));
+                new FixedLengthFrameDecoder(3));
         assertFalse(channel.writeInbound(input.readBytes(2)));
         assertTrue(channel.writeInbound(input.readBytes(7)));
 

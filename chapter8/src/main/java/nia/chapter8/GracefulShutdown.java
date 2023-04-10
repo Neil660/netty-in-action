@@ -2,7 +2,9 @@ package nia.chapter8;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.*;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
@@ -28,18 +30,15 @@ public class GracefulShutdown {
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group)
-             .channel(NioSocketChannel.class)
-        //...
-             .handler(
-                new SimpleChannelInboundHandler<ByteBuf>() {
-                    @Override
-                    protected void channelRead0(
-                            ChannelHandlerContext channelHandlerContext,
-                            ByteBuf byteBuf) throws Exception {
-                        System.out.println("Received data");
-                    }
-                }
-             );
+                .channel(NioSocketChannel.class)
+                //...
+                .handler(new SimpleChannelInboundHandler<ByteBuf>() {
+                             @Override
+                             protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
+                                 System.out.println("Received data");
+                             }
+                         }
+                );
         bootstrap.connect(new InetSocketAddress("www.manning.com", 80)).syncUninterruptibly();
         //,,,
         Future<?> future = group.shutdownGracefully();

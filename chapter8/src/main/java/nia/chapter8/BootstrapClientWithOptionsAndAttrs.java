@@ -21,34 +21,31 @@ public class BootstrapClientWithOptionsAndAttrs {
 
     /**
      * Listing 8.7 Using attributes
-     * */
+     */
     public void bootstrap() {
+        //创建一个 AttributeKey 以标识该属性
         final AttributeKey<Integer> id = AttributeKey.newInstance("ID");
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(new NioEventLoopGroup())
-            .channel(NioSocketChannel.class)
-            .handler(
-                new SimpleChannelInboundHandler<ByteBuf>() {
-                    @Override
-                    public void channelRegistered(ChannelHandlerContext ctx)
-                        throws Exception {
-                        Integer idValue = ctx.channel().attr(id).get();
-                        // do something with the idValue
-                    }
+                .channel(NioSocketChannel.class)
+                .handler(new SimpleChannelInboundHandler<ByteBuf>() {
+                             @Override
+                             public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+                                 //使用 AttributeKey 检索 属性以及它的值
+                                 Integer idValue = ctx.channel().attr(id).get();
+                                 // do something with the idValue
+                             }
 
-                    @Override
-                    protected void channelRead0(
-                        ChannelHandlerContext channelHandlerContext,
-                        ByteBuf byteBuf) throws Exception {
-                        System.out.println("Received data");
-                    }
-                }
-            );
+                             @Override
+                             protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
+                                 System.out.println("Received data");
+                             }
+                         }
+                );
         bootstrap.option(ChannelOption.SO_KEEPALIVE, true)
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
         bootstrap.attr(id, 123456);
-        ChannelFuture future = bootstrap.connect(
-            new InetSocketAddress("www.manning.com", 80));
+        ChannelFuture future = bootstrap.connect(new InetSocketAddress("www.manning.com", 80));
         future.syncUninterruptibly();
     }
 }

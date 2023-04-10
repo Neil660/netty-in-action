@@ -25,34 +25,36 @@ public class LogEventBroadcaster {
         group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(group).channel(NioDatagramChannel.class)
-             .option(ChannelOption.SO_BROADCAST, true)
-             .handler(new LogEventEncoder(address));
+                .option(ChannelOption.SO_BROADCAST, true)
+                .handler(new LogEventEncoder(address));
         this.file = file;
     }
 
     public void run() throws Exception {
         Channel ch = bootstrap.bind(0).sync().channel();
         long pointer = 0;
-        for (;;) {
+        for (; ; ) {
             long len = file.length();
             if (len < pointer) {
                 // file was reset
                 pointer = len;
-            } else if (len > pointer) {
+            }
+            else if (len > pointer) {
                 // Content was added
                 RandomAccessFile raf = new RandomAccessFile(file, "r");
                 raf.seek(pointer);
                 String line;
                 while ((line = raf.readLine()) != null) {
                     ch.writeAndFlush(new LogEvent(null, -1,
-                    file.getAbsolutePath(), line));
+                            file.getAbsolutePath(), line));
                 }
                 pointer = raf.getFilePointer();
                 raf.close();
             }
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 Thread.interrupted();
                 break;
             }
@@ -69,7 +71,7 @@ public class LogEventBroadcaster {
         }
         LogEventBroadcaster broadcaster = new LogEventBroadcaster(
                 new InetSocketAddress("255.255.255.255",
-                    Integer.parseInt(args[0])), new File(args[1]));
+                        Integer.parseInt(args[0])), new File(args[1]));
         try {
             broadcaster.run();
         }

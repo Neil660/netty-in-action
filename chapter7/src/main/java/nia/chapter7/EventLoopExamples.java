@@ -11,13 +11,13 @@ import java.util.List;
 public class EventLoopExamples {
     /**
      * Listing 7.1 Executing tasks in an event loop
-     * */
+     */
     public static void executeTaskInEventLoop() {
         boolean terminated = true;
         //...
         while (!terminated) {
             List<Runnable> readyEvents = blockUntilEventsReady();
-            for (Runnable ev: readyEvents) {
+            for (Runnable ev : readyEvents) {
                 ev.run();
             }
         }
@@ -29,7 +29,8 @@ public class EventLoopExamples {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

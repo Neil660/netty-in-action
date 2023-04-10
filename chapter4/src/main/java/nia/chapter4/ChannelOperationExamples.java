@@ -13,13 +13,14 @@ import java.util.concurrent.Executors;
 
 /**
  * Listing 4.5 Writing to a Channel
- *
+ * <p>
  * Listing 4.6 Using a Channel from many threads
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class ChannelOperationExamples {
     private static final Channel CHANNEL_FROM_SOMEWHERE = new NioSocketChannel();
+
     /**
      * Listing 4.5 Writing to a Channel
      */
@@ -32,7 +33,8 @@ public class ChannelOperationExamples {
             public void operationComplete(ChannelFuture future) {
                 if (future.isSuccess()) {
                     System.out.println("Write successful");
-                } else {
+                }
+                else {
                     System.err.println("Write error");
                     future.cause().printStackTrace();
                 }

@@ -24,7 +24,8 @@ public class HttpAggregatorInitializer extends ChannelInitializer<Channel> {
         ChannelPipeline pipeline = ch.pipeline();
         if (isClient) {
             pipeline.addLast("codec", new HttpClientCodec());
-        } else {
+        }
+        else {
             pipeline.addLast("codec", new HttpServerCodec());
         }
         pipeline.addLast("aggregator",

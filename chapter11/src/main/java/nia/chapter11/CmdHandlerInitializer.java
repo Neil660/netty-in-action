@@ -1,7 +1,11 @@
 package nia.chapter11;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 
 /**
@@ -10,7 +14,8 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class CmdHandlerInitializer extends ChannelInitializer<Channel> {
-    private static final byte SPACE = (byte)' ';
+    private static final byte SPACE = (byte) ' ';
+
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
@@ -43,7 +48,7 @@ public class CmdHandlerInitializer extends ChannelInitializer<Channel> {
 
         @Override
         protected Object decode(ChannelHandlerContext ctx, ByteBuf buffer)
-            throws Exception {
+                throws Exception {
             ByteBuf frame = (ByteBuf) super.decode(ctx, buffer);
             if (frame == null) {
                 return null;
@@ -56,10 +61,10 @@ public class CmdHandlerInitializer extends ChannelInitializer<Channel> {
     }
 
     public static final class CmdHandler
-        extends SimpleChannelInboundHandler<Cmd> {
+            extends SimpleChannelInboundHandler<Cmd> {
         @Override
         public void channelRead0(ChannelHandlerContext ctx, Cmd msg)
-            throws Exception {
+                throws Exception {
             // Do something with the command
         }
     }

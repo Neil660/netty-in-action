@@ -22,6 +22,7 @@
             var log = $('#log')
             log.append(msg + " \n").scrollTop(log[0].scrollHeight - log.height());
         }
+
         $(function () {
             $('#url').val((location.protocol.indexOf('https') == -1 ? 'ws://' : 'wss://') + location.host + '/ws')
 

@@ -9,18 +9,18 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class LogEventHandler
-    extends SimpleChannelInboundHandler<LogEvent> {
+        extends SimpleChannelInboundHandler<LogEvent> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
-        Throwable cause) throws Exception {
+                                Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.close();
     }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx,
-        LogEvent event) throws Exception {
+                             LogEvent event) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append(event.getReceivedTimestamp());
         builder.append(" [");

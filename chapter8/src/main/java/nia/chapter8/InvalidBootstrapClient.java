@@ -25,19 +25,19 @@ public class InvalidBootstrapClient {
 
     /**
      * Listing 8.3 Incompatible Channel and EventLoopGroup
-     * */
+     */
     public void bootstrap() {
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group).channel(OioSocketChannel.class)
-            .handler(new SimpleChannelInboundHandler<ByteBuf>() {
-                @Override
-                protected void channelRead0(
-                    ChannelHandlerContext channelHandlerContext,
-                    ByteBuf byteBuf) throws Exception {
-                    System.out.println("Received data");
-                }
-             });
+                .handler(new SimpleChannelInboundHandler<ByteBuf>() {
+                    @Override
+                    protected void channelRead0(
+                            ChannelHandlerContext channelHandlerContext,
+                            ByteBuf byteBuf) throws Exception {
+                        System.out.println("Received data");
+                    }
+                });
         ChannelFuture future = bootstrap.connect(
                 new InetSocketAddress("www.manning.com", 80));
         future.syncUninterruptibly();

@@ -8,7 +8,8 @@ import nia.chapter9.FrameChunkDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Listing 9.6 Testing FrameChunkDecoder
@@ -26,13 +27,14 @@ public class FrameChunkDecoderTest {
         ByteBuf input = buf.duplicate();
 
         EmbeddedChannel channel = new EmbeddedChannel(
-            new FrameChunkDecoder(3));
+                new FrameChunkDecoder(3));
 
         assertTrue(channel.writeInbound(input.readBytes(2)));
         try {
             channel.writeInbound(input.readBytes(4));
             Assert.fail();
-        } catch (TooLongFrameException e) {
+        }
+        catch (TooLongFrameException e) {
             // expected exception
         }
         assertTrue(channel.writeInbound(input.readBytes(3)));

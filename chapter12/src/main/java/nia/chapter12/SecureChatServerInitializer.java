@@ -16,7 +16,7 @@ public class SecureChatServerInitializer extends ChatServerInitializer {
     private final SslContext context;
 
     public SecureChatServerInitializer(ChannelGroup group,
-        SslContext context) {
+                                       SslContext context) {
         super(group);
         this.context = context;
     }

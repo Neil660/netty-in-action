@@ -1,6 +1,10 @@
 package nia.chapter11;
 
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.marshalling.MarshallerProvider;
 import io.netty.handler.codec.marshalling.MarshallingDecoder;
 import io.netty.handler.codec.marshalling.MarshallingEncoder;
@@ -33,11 +37,11 @@ public class MarshallingInitializer extends ChannelInitializer<Channel> {
     }
 
     public static final class ObjectHandler
-        extends SimpleChannelInboundHandler<Serializable> {
+            extends SimpleChannelInboundHandler<Serializable> {
         @Override
         public void channelRead0(
-            ChannelHandlerContext channelHandlerContext,
-            Serializable serializable) throws Exception {
+                ChannelHandlerContext channelHandlerContext,
+                Serializable serializable) throws Exception {
             // Do something
         }
     }

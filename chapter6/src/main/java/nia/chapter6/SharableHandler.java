@@ -14,7 +14,7 @@ public class SharableHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("channel read message " + msg);
-        ctx.fireChannelRead(msg);
+        ctx.fireChannelRead(msg); //记录方法调用，并转发给下 一个 ChannelHandler
     }
 }
 

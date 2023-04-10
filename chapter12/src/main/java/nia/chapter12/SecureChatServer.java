@@ -23,7 +23,7 @@ public class SecureChatServer extends ChatServer {
 
     @Override
     protected ChannelInitializer<Channel> createInitializer(
-        ChannelGroup group) {
+            ChannelGroup group) {
         return new SecureChatServerInitializer(group, context);
     }
 

@@ -3,7 +3,12 @@ package nia.chapter4;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.oio.OioServerSocketChannel;
@@ -31,7 +36,7 @@ public class NettyOioServer {
                         @Override
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
-                                ch.pipeline().addLast(
+                            ch.pipeline().addLast(
                                     new ChannelInboundHandlerAdapter() {
                                         @Override
                                         public void channelActive(
@@ -46,7 +51,8 @@ public class NettyOioServer {
                     });
             ChannelFuture f = b.bind().sync();
             f.channel().closeFuture().sync();
-        } finally {
+        }
+        finally {
             group.shutdownGracefully().sync();
         }
     }

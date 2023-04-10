@@ -27,7 +27,8 @@ public class HttpPipelineInitializer extends ChannelInitializer<Channel> {
         if (client) {
             pipeline.addLast("decoder", new HttpResponseDecoder());
             pipeline.addLast("encoder", new HttpRequestEncoder());
-        } else {
+        }
+        else {
             pipeline.addLast("decoder", new HttpRequestDecoder());
             pipeline.addLast("encoder", new HttpResponseEncoder());
         }
